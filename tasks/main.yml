@@ -1,8 +1,8 @@
 ---
 # tasks file for arillso.wireguard
 
-- name: add OS specific variables
-  include_vars: '{{ loop_vars }}'
+- name: include distribution tasks
+  include_tasks: '{{ loop_distribution }}'
   with_first_found:
     - files:
         - '{{ distribution }}-{{ distribution_version }}.yml'
@@ -12,9 +12,9 @@
         - '{{ ansible_system }}.yml'
         - 'defaults.yml'
       paths:
-        - 'vars'
+        - 'distribution'
   loop_control:
-    loop_var: loop_vars
+    loop_var: loop_distribution
   vars:
     distribution: '{{ ansible_distribution }}'
     distribution_version: '{{ ansible_distribution_version }}'
@@ -33,8 +33,6 @@
         - '{{ ansible_os_family }}.yml'
         - '{{ ansible_system }}.yml'
         - 'defaults.yml'
-      paths:
-        - 'distribution'
   loop_control:
     loop_var: loop_distribution
   vars:
