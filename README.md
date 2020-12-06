@@ -2,9 +2,9 @@
 
 <!-- markdownlint-disable MD013 -->
 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](LICENSE) [![Ansible Role](https://img.shields.io/ansible/role/52173?label=role%20name&style=flat-square&logo=ansible)](https://galaxy.ansible.com/arillso/wireguard) [![Ansible Role](https://img.shields.io/ansible/role/d/52173.svg?style=flat-square&logo=ansible)](https://galaxy.ansible.com/arillso/wireguard) [![Ansible Quality Score](https://img.shields.io/ansible/quality/52173?label=role%20quality&style=flat-square&logo=ansible)](https://galaxy.ansible.com/arillso/wireguard) [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/arillso/ansible.wireguard?style=flat-square&logo=github)](https://github.com/arillso/ansible.wireguard/releases) [![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/arillso/ansible.wireguard/Role%20Tests/main?label=tests&style=flat-square&logo=github)](https://github.com/arillso/ansible.wireguard/actions?query=workflow%3A%22Role+Tests%22)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square&logo=Open%20Source%20Initiative)](LICENSE) [![Ansible Role](https://img.shields.io/ansible/role/52173?label=role%20name&style=flat-square&logo=ansible)](https://galaxy.ansible.com/arillso/wireguard) [![Ansible Role](https://img.shields.io/ansible/role/d/52173.svg?style=flat-square&logo=ansible)](https://galaxy.ansible.com/arillso/wireguard) [![Ansible Quality Score](https://img.shields.io/ansible/quality/52173?label=role%20quality&style=flat-square&logo=ansible)](https://galaxy.ansible.com/arillso/wireguard) [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/arillso/ansible.wireguard?style=flat-square&logo=github)](https://github.com/arillso/ansible.wireguard/releases) [![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/arillso/ansible.wireguard/Role%20Tests/main?label=tests&style=flat-square&logo=github)](https://github.com/arillso/ansible.wireguard/actions?query=workflow%3A%22Role+Tests%22)
 
-<!-- markdownlint-enable MD012 -->
+<!-- markdownlint-enable MD013 -->
 
 ## Description
 
@@ -132,7 +132,7 @@ Here is a litte example for what I use the playbook: I use WireGuard to setup a 
 
 First, here is a part of my Ansible `hosts` file:
 
-```toml
+```ini
 [vpn]
 controller0[1:3].i.domain.tld
 worker0[1:2].i.domain.tld
