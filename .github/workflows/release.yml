@@ -37,6 +37,6 @@ jobs:
 
     steps:
       - name: Release Ansible Role to Galaxy
-        uses: hspaans/ansible-galaxy-action@v0.1.1
+        uses: hspaans/ansible-galaxy-action@v0.2.0
         with:
           api_key: ${{ secrets.GALAXY_API_KEY }}
