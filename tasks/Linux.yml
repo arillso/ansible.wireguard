@@ -7,6 +7,8 @@
     name: net.ipv4.ip_forward
     value: 1
     reload: true
+  tags:
+    - molecule-notest
 
 - name: 'Linux : Enable WireGuard kernel module'
   become: true
