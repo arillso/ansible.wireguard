@@ -18,13 +18,6 @@
   when:
     - ansible_lsb.major_release is version('19.10', '<')
 
-- name: 'Ubuntu : Ensure WireGuard DKMS package is removed'
-  become: true
-  ansible.builtin.apt:
-    name:
-      - 'wireguard-dkms'
-    state: absent
-
 - name: 'Ubuntu : Install wireguard package'
   become: true
   ansible.builtin.apt:
