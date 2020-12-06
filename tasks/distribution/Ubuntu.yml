@@ -1,12 +1,16 @@
 ---
 # tasks file for arillso.wireguard
 
+- name: 'Ubuntu : Update APT package cache'
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+
 - name: 'Ubuntu : Install support packages needed for Wireguard (for Ubuntu < 19.10)'
   become: true
   ansible.builtin.apt:
     name: '{{ packages }}'
     state: present
-    update_cache: true
   vars:
     packages:
       - software-properties-common
@@ -20,11 +24,9 @@
     name:
       - 'wireguard-dkms'
     state: absent
-    update_cache: true
 
 - name: 'Ubuntu : Install wireguard package'
   become: true
   ansible.builtin.apt:
     name: 'wireguard'
     state: present
-    update_cache: true
