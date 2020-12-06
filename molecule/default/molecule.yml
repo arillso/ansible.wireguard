@@ -10,24 +10,6 @@ lint: |
   ansible-lint ../arillso.wireguard
   flake8
 platforms:
-  - name: alpine-3.11
-    image: arillso/alpine:3.11
-    privileged: true
-    cap_add:
-      - ALL
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /dev:/dev
-      - /lib/modules:/lib/modules
-  - name: alpine-3.12
-    image: arillso/alpine:3.12
-    privileged: true
-    cap_add:
-      - ALL
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /dev:/dev
-      - /lib/modules:/lib/modules
   - name: centos-7
     image: arillso/centos:7
     privileged: true
@@ -90,16 +72,6 @@ platforms:
       - /lib/modules:/lib/modules
   - name: ubuntu-focal
     image: arillso/ubuntu:focal
-    privileged: true
-    command: /lib/systemd/systemd
-    cap_add:
-      - ALL
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /dev:/dev
-      - /lib/modules:/lib/modules
-  - name: ubuntu-xenial
-    image: arillso/ubuntu:xenial
     privileged: true
     command: /lib/systemd/systemd
     cap_add:

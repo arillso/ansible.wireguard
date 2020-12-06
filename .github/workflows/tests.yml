@@ -22,7 +22,6 @@ jobs:
           - debian-sid
           - ubuntu-bionic
           - ubuntu-focal
-          - ubuntu-xenial
 
     steps:
       - name: Checkout Code

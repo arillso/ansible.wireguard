@@ -6,18 +6,6 @@
     update_cache: true
     cache_valid_time: 3600
 
-- name: 'Ubuntu : Install support packages needed for Wireguard (for Ubuntu < 19.10)'
-  become: true
-  ansible.builtin.apt:
-    name: '{{ packages }}'
-    state: present
-  vars:
-    packages:
-      - software-properties-common
-      - linux-headers-{{ ansible_kernel }}
-  when:
-    - ansible_lsb.major_release is version('19.10', '<')
-
 - name: 'Ubuntu : Install wireguard package'
   become: true
   ansible.builtin.apt:
