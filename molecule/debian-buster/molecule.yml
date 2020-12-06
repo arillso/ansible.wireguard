@@ -15,8 +15,12 @@ platforms:
     image: arillso/debian:buster
     privileged: true
     command: /lib/systemd/systemd
+    cap_add:
+      - ALL
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /dev:/dev
+      - /lib/modules:/lib/modules
 provisioner:
   name: ansible
   playbooks:

@@ -1,7 +1,7 @@
 ---
 # tasks file for arillso.wireguard
 
-- name: 'Linux: Enable IPv4 forwarding'
+- name: 'Linux : Enable IPv4 forwarding'
   become: true
   ansible.posix.sysctl:
     name: net.ipv4.ip_forward
