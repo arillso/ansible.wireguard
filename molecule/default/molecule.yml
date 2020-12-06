@@ -1,27 +1,96 @@
 ---
 dependency:
   name: galaxy
+  options:
+    requirements-file: .requirements.yml
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  yamllint .
+  ansible-lint ../arillso.wireguard
+  flake8
 platforms:
-  - name: instance
-    image: 'geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest'
-    command: ${MOLECULE_DOCKER_COMMAND:-""}
+  - name: centos-7
+    image: arillso/centos:7
+    privileged: true
+    command: /usr/sbin/init
+    cap_add:
+      - ALL
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /dev:/dev
+      - /lib/modules:/lib/modules
+  - name: centos-8
+    image: arillso/centos:8
     privileged: true
-    pre_build_image: true
+    command: /usr/sbin/init
+    cap_add:
+      - ALL
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /dev:/dev
+      - /lib/modules:/lib/modules
+  - name: debian-10
+    image: arillso/debian:10
+    privileged: true
+    command: /lib/systemd/systemd
+    cap_add:
+      - ALL
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /dev:/dev
+      - /lib/modules:/lib/modules
+  - name: debian-11
+    image: arillso/debian:11
+    privileged: true
+    command: /lib/systemd/systemd
+    cap_add:
+      - ALL
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /dev:/dev
+      - /lib/modules:/lib/modules
+  - name: debian-sid
+    image: arillso/debian:sid
+    privileged: true
+    command: /lib/systemd/systemd
+    cap_add:
+      - ALL
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /dev:/dev
+      - /lib/modules:/lib/modules
+  - name: ubuntu-bionic
+    image: arillso/ubuntu:bionic
+    privileged: true
+    command: /lib/systemd/systemd
+    cap_add:
+      - ALL
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /dev:/dev
+      - /lib/modules:/lib/modules
+  - name: ubuntu-focal
+    image: arillso/ubuntu:focal
+    privileged: true
+    command: /lib/systemd/systemd
+    cap_add:
+      - ALL
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /dev:/dev
+      - /lib/modules:/lib/modules
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
   playbooks:
-    converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
+    converge: ../default/converge.yml
+  env:
+    ANSIBLE_ROLES_PATH: ../../
 scenario:
   name: default
 verifier:
   name: testinfra
   lint:
-    name: flake8
+    name: ansible

@@ -1,0 +1,22 @@
+---
+# tasks file for arillso.wireguard
+
+- name: 'CentOS : Install EPEL & ELRepo repository'
+  yum:
+    name:
+      - epel-release
+      - elrepo-release
+    update_cache: true
+
+- name: 'CentOS : Ensure WireGuard DKMS package is removed'
+  yum:
+    name:
+      - 'wireguard-dkms'
+    state: absent
+
+- name: 'CentOS : Install WireGuard packages'
+  yum:
+    name:
+      - 'kmod-wireguard'
+      - 'wireguard-tools'
+    state: present

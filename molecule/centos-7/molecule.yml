@@ -1,0 +1,31 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: .requirements.yml
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint ../arillso.wireguard
+  flake8
+platforms:
+  - name: centos-7
+    image: arillso/centos:7
+    privileged: true
+    command: /usr/sbin/init
+    cap_add:
+      - ALL
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /dev:/dev
+      - /lib/modules:/lib/modules
+provisioner:
+  name: ansible
+  playbooks:
+    converge: ../default/converge.yml
+  env:
+    ANSIBLE_ROLES_PATH: ../../
+verifier:
+  name: ansible

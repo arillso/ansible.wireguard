@@ -1,2 +1,15 @@
 ---
 # handlers file for arillso.wireguard
+
+- name: restarted wireguard
+  become: true
+  ansible.builtin.service:
+    name: 'wg-quick@{{ wireguard_interface }}'
+    state: 'restarted'
+
+- name: started wireguard
+  become: true
+  ansible.builtin.service:
+    name: 'wg-quick@{{ wireguard_interface }}'
+    state: 'started'
+    enabled: true

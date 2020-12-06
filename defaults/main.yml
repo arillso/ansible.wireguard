@@ -1,2 +1,20 @@
 ---
 # defaults file for arillso.wireguard
+
+# Directory to store WireGuard configuration on the remote hosts
+wireguard_remote_directory: '/etc/wireguard'
+
+# The default port WireGuard will listen if not specified otherwise.
+wireguard_port: '51820'
+
+# The default interface name that WireGuard should use if not specified otherwise.
+wireguard_interface: 'wg0'
+
+# The default owner of the wg.conf file
+wireguard_conf_owner: root
+
+# The default group of the wg.conf file
+wireguard_conf_group: 'root'
+
+# The default mode of the wg.conf file
+wireguard_conf_mode: 0600

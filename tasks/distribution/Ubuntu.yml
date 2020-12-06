@@ -1,0 +1,13 @@
+---
+# tasks file for arillso.wireguard
+
+- name: 'Ubuntu : Update APT package cache'
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: 'Ubuntu : Install wireguard package'
+  become: true
+  ansible.builtin.apt:
+    name: 'wireguard'
+    state: present

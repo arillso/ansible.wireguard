@@ -1,0 +1,87 @@
+---
+# tasks file for arillso.wireguard
+
+- name: 'Linux : Enable IPv4 forwarding'
+  become: true
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    reload: true
+  tags:
+    - molecule-notest
+
+- name: 'Linux : Enable WireGuard kernel module'
+  become: true
+  community.general.modprobe:
+    name: wireguard
+    state: present
+  register: register_module_enabled
+  until: register_module_enabled is succeeded
+  retries: 10
+  delay: 10
+  failed_when: register_module_enabled is failure
+
+- name: 'Linx : Register if config/private key already exists on target host'
+  become: true
+  ansible.builtin.stat:
+    path: '{{ wireguard_remote_directory }}/{{ wireguard_interface }}.conf'
+  register: wireguard__register_config_file
+
+- block:
+    - name: Generate WireGuard private key
+      command: 'wg genkey'
+      register: wireguard__register_private_key
+      changed_when: false
+
+    - name: Set private key fact
+      ansible.builtin.set_fact:
+        wireguard_private_key: '{{ wireguard__register_private_key.stdout }}'
+  when:
+    - not wireguard__register_config_file.stat.exists
+    - wireguard_private_key is not defined
+
+- block:
+    - name: Read WireGuard config file
+      become: true
+      ansible.builtin.slurp:
+        src: '{{ wireguard_remote_directory }}/{{ wireguard_interface }}.conf'
+      register: wireguard__register_config
+
+    - name: Set private key fact
+      set_fact:
+        wireguard_private_key: "{{ wireguard__register_config['content'] | b64decode | regex_findall('PrivateKey = (.*)') | first }}"
+
+  when:
+    - wireguard__register_config_file.stat.exists
+    - wireguard_private_key is not defined
+
+- name: Generate WireGuard public key
+  command: 'wg pubkey'
+  args:
+    stdin: '{{ wireguard_private_key }}'
+  register: wireguard__register_public_key
+  changed_when: false
+  check_mode: false
+
+- name: Set public key fact
+  ansible.builtin.set_fact:
+    wireguard__fact_public_key: '{{ wireguard__register_public_key.stdout }}'
+
+- name: Create WireGuard configuration directory
+  become: true
+  ansible.builtin.file:
+    dest: '{{ wireguard_remote_directory }}'
+    state: directory
+    mode: 0700
+
+- name: Generate WireGuard configuration file
+  become: true
+  ansible.builtin.template:
+    src: etc/wireguard/wg.conf.j2
+    dest: '{{ wireguard_remote_directory }}/{{ wireguard_interface }}.conf'
+    owner: '{{ wireguard_conf_owner }}'
+    group: '{{ wireguard_conf_group }}'
+    mode: '{{ wireguard_conf_mode }}'
+  notify:
+    - started wireguard
+    - restarted wireguard
