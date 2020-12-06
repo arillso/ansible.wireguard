@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: 'Include arillso.wireguard'
+      include_role:
+        name: 'arillso.wireguard'

@@ -1,0 +1,14 @@
+---
+# tasks file for arillso.wireguard
+
+- name: 'Debian : Add WireGuard repository on buster'
+  apt_repository:
+    repo: 'deb http://deb.debian.org/debian buster-backports main'
+    state: "{{ 'present' if (ansible_distribution_version | int <= 10) else 'absent' }}"
+    update_cache: true
+
+- name: 'Debian :  Install WireGuard packages'
+  apt:
+    name:
+      - 'wireguard'
+    state: present

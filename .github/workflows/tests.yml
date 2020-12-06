@@ -1,0 +1,41 @@
+---
+name: Role Tests
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: arillso.wireguard
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        scenario:
+          - alpine-3.11
+          - alpine-3.12
+          - centos-7
+          - centos-8
+          - debian-bullseye
+          - debian-buster
+          - debian-sid
+          - default
+          - ubuntu-bionic
+          - ubuntu-focal
+          - ubuntu-xenial
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          path: arillso.wireguard
+
+      - name: Ansible Molecule Test
+        uses: gofrolist/molecule-action@v2.0.1
+        with:
+          molecule_command: test
+          molecule_args: --scenario-name ${{ matrix.scenario }}
+          molecule_working_dir: arillso.wireguard
