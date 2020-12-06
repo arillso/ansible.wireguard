@@ -6,7 +6,7 @@ repository:
   name: ansible.wireguard
 
   # A short description of the repository that will show up on GitHub
-  description: GAnsible role that dynamically creates the hosts file.
+  description: Ansible role for installation and configuration of wireguard VPN.
 
   # A comma-separated list of topics to set on the repository
   topics: ansible, ansible-role, wireguard

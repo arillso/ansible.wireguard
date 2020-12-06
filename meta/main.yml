@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: wireguard
   author: Arillso <team@arillso.io>
-  description: 'installation and configuration of wireguard.'
+  description: 'Installation and configuration of wireguard VPN.'
   license: MIT
   min_ansible_version: 2.10
   platforms:

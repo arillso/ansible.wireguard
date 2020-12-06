@@ -8,6 +8,8 @@
 
 ## Description
 
+Ansible role for installation and configuration of wireguard VPN.
+
 ## Installation
 
 ```bash
@@ -16,13 +18,13 @@ ansible-galaxy install arillso.wireguard
 
 ## Requirements
 
-None
+- `ansible.posix` collections
 
 ## Role Variables
 
 These variables can be changed in `group_vars/` e.g.:
 
-```yaml
+```yml
 # Directory to store WireGuard configuration on the remote hosts
 wireguard_remote_directory: '/etc/wireguard' # On Linux
 # wireguard_remote_directory: "/opt/local/etc/wireguard"  # On MacOS
@@ -45,7 +47,7 @@ wireguard_conf_mode: 0600
 
 The following variable is mandatory and needs to be configured for every host in `host_vars/` e.g.:
 
-```yaml
+```yml
 wireguard_address: '10.8.0.101/24'
 ```
 
@@ -81,7 +83,7 @@ Now this is basically the same as above BUT now the config says: I want to route
 
 You can specify further optional settings (they don't have a default and won't be set if not specified besides `wireguard_allowed_ips` as already mentioned) also per host in `host_vars/` (or in your Ansible hosts file if you like). The values for the following variables are just examples and no defaults (for more information and examples see [wg-quick.8](https://git.zx2c4.com/WireGuard/about/src/tools/man/wg-quick.8)):
 
-```yaml
+```yml
 wireguard_allowed_ips: ''
 wireguard_endpoint: 'host1.domain.tld'
 wireguard_persistent_keepalive: '30'
@@ -109,14 +111,14 @@ wireguard_unmanaged_peers:
 
 `wireguard_(preup|predown|postup|postdown)` are specified as lists. Here are two examples:
 
-```yaml
+```yml
 wireguard_postup:
   - iptables -t nat -A POSTROUTING -o ens12 -j MASQUERADE
   - iptables -A FORWARD -i %i -j ACCEPT
   - iptables -A FORWARD -o %i -j ACCEPT
 ```
 
-```yaml
+```yml
 wireguard_preup:
   - echo 1 > /proc/sys/net/ipv4/ip_forward
   - ufw allow 51820/udp
@@ -150,7 +152,7 @@ For the Kubernetes controller nodes I've defined the following host variables:
 
 Ansible host file: `host_vars/controller01.i.domain.tld`
 
-```yaml
+```yml
 ---
 wireguard_address: '10.8.0.101/24'
 wireguard_endpoint: 'controller01.p.domain.tld'
@@ -160,7 +162,7 @@ ansible_python_interpreter: /usr/bin/python3
 
 Ansible host file: `host_vars/controller02.i.domain.tld`:
 
-```yaml
+```yml
 ---
 wireguard_address: '10.8.0.102/24'
 wireguard_endpoint: 'controller02.p.domain.tld'
@@ -170,7 +172,7 @@ ansible_python_interpreter: /usr/bin/python3
 
 Ansible host file: `host_vars/controller03.i.domain.tld`:
 
-```yaml
+```yml
 ---
 wireguard_address: '10.8.0.103/24'
 wireguard_endpoint: 'controller03.p.domain.tld'
@@ -184,7 +186,7 @@ For the Kubernetes worker I've defined the following variables:
 
 Ansible host file: `host_vars/worker01.i.domain.tld`
 
-```yaml
+```yml
 ---
 wireguard_address: '10.8.0.111/24'
 wireguard_endpoint: 'worker01.p.domain.tld'
@@ -195,7 +197,7 @@ ansible_python_interpreter: /usr/bin/python3
 
 Ansible host file: `host_vars/worker02.i.domain.tld`:
 
-```yaml
+```yml
 ---
 wireguard_address: '10.8.0.112/24'
 wireguard_endpoint: 'worker02.p.domain.tld'
@@ -208,7 +210,7 @@ As you can see the variables are basically the same as the controller nodes have
 
 For my internal server at home (connected via DSL router to the internet) we've this configuration:
 
-```yaml
+```yml
 ---
 wireguard_address: '10.8.0.1/24'
 wireguard_endpoint: 'server.at.home.p.domain.tld'
@@ -221,7 +223,7 @@ By default the SSH daemon is listening on a different port than 22 on all of my 
 
 And finally for my workstation (on which I run all `ansible-playbook` commands):
 
-```yaml
+```yml
 wireguard_address: '10.8.0.2/24'
 wireguard_endpoint: ''
 ansible_connection: local
