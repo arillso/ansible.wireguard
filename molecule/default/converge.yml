@@ -1,6 +1,8 @@
 ---
 - name: Converge
   hosts: all
+  vars:
+    wireguard_address: 10.10.10.0/24
   tasks:
     - name: 'Include arillso.wireguard'
       include_role:
