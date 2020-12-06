@@ -20,8 +20,8 @@ jobs:
         with:
           path: arillso.wireguard
 
-      - name: Ansible Molecule Test
-        uses: gofrolist/molecule-action@v2.0.1
+      - name: Test Ansible with Molecule
+        uses: arillso/action.molecule@0.0.1
         with:
           molecule_command: test
           molecule_working_dir: arillso.wireguard
@@ -37,6 +37,6 @@ jobs:
 
     steps:
       - name: Release Ansible Role to Galaxy
-        uses: hspaans/ansible-galaxy-action@v0.1.1
+        uses: robertdebock/galaxy-action@1.1.0
         with:
-          api_key: ${{ secrets.GALAXY_API_KEY }}
+          galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
